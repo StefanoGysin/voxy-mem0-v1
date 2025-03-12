@@ -33,7 +33,7 @@ def display_banner():
     print(banner)
     print("  🚀 Utilitário de linha de comando para o Voxy-Mem0")
     print("  🔧 Configuração, testes e execução simplificados")
-    print("  📝 Documentação: https://github.com/seu-usuario/voxy-mem0\n")
+    print("  📝 Documentação: https://github.com/StefanoGysin/voxy-mem0-v1\n")
 
 def check_dependencies():
     """

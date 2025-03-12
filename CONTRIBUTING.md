@@ -60,7 +60,7 @@ Seguimos o [PEP 8](https://www.python.org/dev/peps/pep-0008/) para código Pytho
 Antes de contribuir, familiarize-se com a estrutura do projeto:
 
 ```
-voxy-mem0/
+voxy-mem0-v1/
 ├── voxy_agent.py         # Código principal do assistente
 ├── examples/             # Exemplos de uso
 ├── logs/                 # Diretório para armazenamento de logs

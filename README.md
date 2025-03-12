@@ -32,8 +32,8 @@ Voxy-Mem0 é um assistente conversacional baseado em IA com memória vetorial de
 ### 1. Clone o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/voxy-mem0.git
-cd voxy-mem0
+git clone https://github.com/StefanoGysin/voxy-mem0-v1.git
+cd voxy-mem0-v1
 ```
 
 ### 2. Configure o Ambiente Virtual
@@ -148,7 +148,7 @@ python -m unittest test_agent.py
 ## 📁 Estrutura do Projeto
 
 ```
-voxy-mem0/
+voxy-mem0-v1/
 ├── .env.example          # Modelo de variáveis de ambiente
 ├── .env                  # Variáveis de ambiente (local, não versionado)
 ├── .gitignore            # Arquivos ignorados no Git
