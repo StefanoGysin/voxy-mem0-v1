@@ -1,7 +1,7 @@
 # Voxy-Mem0: Assistente com Memória Vetorial
 
 ![Versão](https://img.shields.io/badge/versão-1.0.0-blue.svg)
-![Python](https://img.shields.io/badge/Python-3.9%2B-green.svg)
+![Python](https://img.shields.io/badge/Python-3.12%2B-green.svg)
 ![Licença](https://img.shields.io/badge/licença-MIT-yellow.svg)
 
 ## 📋 Visão Geral
@@ -18,12 +18,13 @@ Voxy-Mem0 é um assistente conversacional baseado em IA com memória vetorial de
 - **👤 Identificação de Usuários**: Permite múltiplos usuários com memórias individuais
 - **🔒 Armazenamento Seguro**: Dados armazenados de forma segura no Supabase com pgvector
 - **💬 Respostas Contextuais**: Gera respostas levando em consideração o histórico da conversa
-- **📝 Logging Detalhado**: Sistema de registro para monitoramento e depuração
-- **🚀 Fácil de Usar**: Interface de linha de comando simples e intuitiva
+- **📝 Logging Colorido**: Sistema de registro avançado com formatação colorida para melhor visualização
+- **🎨 Interface Amigável**: Interface de linha de comando com cores e formatação visual aprimorada
+- **🚀 Fácil de Usar**: Experiência de usuário intuitiva com feedback visual claro
 
 ## 🛠️ Pré-requisitos
 
-- Python 3.9+
+- Python 3.12+
 - Conta na [OpenAI](https://platform.openai.com) com chave de API
 - Projeto [Supabase](https://supabase.com) para armazenamento vetorial (plano gratuito é suficiente)
 
@@ -38,28 +39,50 @@ cd voxy-mem0-v1
 
 ### 2. Configure o Ambiente Virtual
 
+#### Windows
+```powershell
+# Criar ambiente virtual
+python -m venv .venv
+
+# Ativar ambiente virtual
+.venv\Scripts\activate
+```
+
+#### macOS/Linux
 ```bash
 # Criar ambiente virtual
 python -m venv .venv
 
-# Ativar ambiente virtual (Windows)
-.venv\Scripts\activate
-
-# Ativar ambiente virtual (macOS/Linux)
+# Ativar ambiente virtual
 source .venv/bin/activate
 ```
 
 ### 3. Instale as Dependências
 
 ```bash
+# Atualizar pip para a versão mais recente
+python -m pip install --upgrade pip
+
+# Instalar todas as dependências
 pip install -r requirements.txt
 ```
+
+As principais dependências incluem:
+- **mem0**: Biblioteca para gerenciamento de memória vetorial
+- **openai**: Cliente oficial da API OpenAI
+- **supabase**: Cliente Python para o Supabase
+- **colorama**: Biblioteca para formatação colorida no terminal
+- **python-dotenv**: Para carregamento de variáveis de ambiente
 
 ### 4. Configure as Variáveis de Ambiente
 
 1. Copie o arquivo `.env.example` para `.env`:
 
 ```bash
+# Windows
+copy .env.example .env
+
+# macOS/Linux
 cp .env.example .env
 ```
 
@@ -67,6 +90,7 @@ cp .env.example .env
    - `OPENAI_API_KEY`: Sua chave de API da OpenAI
    - `DATABASE_URL`: URL de conexão do Supabase (veja instruções abaixo)
    - `MODEL_CHOICE`: Modelo da OpenAI (opcional, padrão é gpt-4o-mini)
+   - `LOG_LEVEL`: Nível de logging (INFO, DEBUG, WARNING, ERROR)
 
 ### 5. Configure o Banco de Dados Supabase
 
@@ -76,7 +100,17 @@ cp .env.example .env
 4. Em "Connection string", selecione "URI" e copie a URL
 5. Substitua `[YOUR-PASSWORD]` pela senha do seu banco de dados
 
-**Importante para usuários Windows:** Adicione `?sslmode=require` ao final da URL.
+#### Configuração por Sistema Operacional
+
+**Windows:**
+- Adicione `?sslmode=require` ao final da URL
+- Exemplo: `postgres://postgres:MinhaSeNha123@db.xxxxx.supabase.co:5432/postgres?sslmode=require`
+- Se encontrar erros de conexão, tente usar o Session Pooler: `postgres://postgres.xxxxx:[SENHA]@aws-0-eu-central-2.pooler.supabase.co:5432/postgres?sslmode=require`
+
+**macOS/Linux:**
+- A URL padrão geralmente funciona sem modificações
+- Exemplo: `postgres://postgres:MinhaSeNha123@db.xxxxx.supabase.co:5432/postgres`
+- Em caso de problemas, adicione `?sslmode=require` ao final da URL
 
 ## 🚀 Uso
 
@@ -91,12 +125,70 @@ python run.py test
 # Configure o banco de dados (extensão pgvector)
 python run.py setup
 
-# Execute o assistente
+# Execute o assistente em modo CLI
 python run.py run
+
+# Execute a interface web com Streamlit
+python run.py web
 
 # Ou execute todos os passos sequencialmente
 python run.py all
+
+# Exibir informações do sistema
+python run.py system-info
 ```
+
+### Interface de Linha de Comando Aprimorada
+
+A nova versão do Voxy-Mem0 inclui uma interface de linha de comando colorida e visualmente aprimorada:
+
+#### Recursos Visuais
+- **Formatação Colorida**: Textos, prompts e respostas com cores para melhor legibilidade
+- **Separadores Visuais**: Delimitadores claros entre diferentes seções de saída
+- **Indicadores de Status**: Ícones e cores para indicar sucesso, erro ou avisos
+- **Logs Formatados**: Sistema de logging com cores diferentes para cada nível (INFO, WARNING, ERROR)
+
+#### Exemplo de Saída
+```
+──────────────────────────────────────────────────────
+💾 [00:51:00] Nova memória adicionada ao Supabase:
+   • Usuário: web_user_24eca2a8
+   • Conteúdo: "agora sabe quem eu sou?"
+   • Coleção: voxy_memories
+   • Status: ✅ Sucesso
+──────────────────────────────────────────────────────
+```
+
+#### Tratamento de Erros Aprimorado
+Em caso de erros, o sistema exibe mensagens de erro formatadas em caixas destacadas:
+
+```
+════════════════════════════════════════════════════════════
+❌ ERRO DE CONFIGURAÇÃO
+════════════════════════════════════════════════════════════
+Detalhes: DATABASE_URL não configurado
+🔧 Por favor, configure as variáveis de ambiente conforme o .env.example
+════════════════════════════════════════════════════════════
+```
+
+### Interface Web com Streamlit
+
+O Voxy-Mem0 agora inclui uma interface web moderna e intuitiva usando Streamlit:
+
+```bash
+# Execute a interface web
+python run.py web
+```
+
+A interface web oferece:
+
+- **🌐 Acesso via Navegador**: Acesse o assistente através de qualquer navegador
+- **💬 Interface de Chat Amigável**: Interface de chat moderna e responsiva
+- **👤 Gerenciamento de Usuários**: Troque facilmente entre diferentes IDs de usuário
+- **⚙️ Configurações Personalizáveis**: Ajuste as configurações do assistente
+- **📊 Visualização de Memórias**: Visualize as memórias armazenadas para seu usuário
+
+Por padrão, a interface web estará disponível em `http://localhost:8501`
 
 ### Modo Detalhado (Passo a Passo)
 
@@ -165,18 +257,79 @@ voxy-mem0-v1/
 ├── tests/                # Testes automatizados
 │   ├── __init__.py       # Inicialização do módulo
 │   └── test_agent.py     # Testes do agente principal
-└── utils/                # Utilitários
-    └── setup_supabase.py # Script de configuração do banco de dados
+├── utils/                # Utilitários
+│   └── setup_supabase.py # Script de configuração do banco de dados
+└── web/                  # Interface web com Streamlit
+    ├── __init__.py       # Inicialização do módulo
+    ├── app.py            # Aplicação principal do Streamlit
+    ├── components/       # Componentes reutilizáveis da UI
+    │   ├── __init__.py
+    │   └── sidebar.py    # Componente da barra lateral
+    ├── pages/            # Páginas da aplicação
+    │   ├── __init__.py
+    │   ├── about.py      # Página sobre o projeto
+    │   ├── chat.py       # Página de chat
+    │   └── settings.py   # Página de configurações
+    ├── static/           # Arquivos estáticos
+    │   └── css/
+    │       └── style.css # Estilos personalizados
+    └── utils/            # Utilitários para a web
+        ├── __init__.py
+        ├── api.py        # Wrapper da API do Voxy-Mem0
+        └── session.py    # Gerenciamento de sessão
 ```
 
 ## 🗺️ Desenvolvimento Futuro
 
-- [ ] Interface web com Streamlit
+- [x] Interface web com Streamlit
 - [ ] Sistema de autenticação de usuários
 - [ ] Painel de administração para gerenciar memórias
 - [ ] Suporte a entrada de imagens e áudio
 - [ ] Integração com outras ferramentas e APIs
 - [ ] Mais opções de armazenamento vetorial
+
+## 🎨 Melhorias Visuais e de Formatação
+
+A versão mais recente do Voxy-Mem0 inclui diversas melhorias visuais e de formatação para tornar a experiência do usuário mais agradável e informativa:
+
+### Sistema de Logging Colorido
+
+O sistema de logging foi completamente reformulado para utilizar cores e formatação avançada:
+
+- **Níveis de Log Coloridos**:
+  - INFO: Verde 🟢
+  - WARNING: Amarelo 🟡
+  - ERROR: Vermelho 🔴
+  - CRITICAL: Vermelho Brilhante 🔆
+
+- **Formatação Estruturada**: Logs organizados com timestamps, categorias e mensagens claramente separados
+- **Saída Dupla**: Logs são exibidos no console e também salvos em arquivo para referência futura
+
+### Feedback Visual Aprimorado
+
+- **Separadores Visuais**: Linhas horizontais coloridas para delimitar diferentes seções de saída
+- **Caixas de Mensagem**: Mensagens importantes são exibidas em caixas destacadas
+- **Ícones Informativos**: Uso de emojis e símbolos para indicar diferentes tipos de operações e status
+
+### Tratamento de Erros Melhorado
+
+- **Mensagens de Erro Detalhadas**: Erros são exibidos com informações detalhadas sobre a causa e possíveis soluções
+- **Caixas de Erro Destacadas**: Erros críticos são exibidos em caixas vermelhas para chamar atenção
+- **Sugestões de Solução**: Mensagens de erro incluem dicas sobre como resolver o problema
+
+### Personalização
+
+O sistema de cores pode ser personalizado editando as constantes `COLORS` na classe `ColoredFormatter` no arquivo `voxy_agent.py`:
+
+```python
+COLORS = {
+    'DEBUG': Fore.BLUE,
+    'INFO': Fore.GREEN,
+    'WARNING': Fore.YELLOW,
+    'ERROR': Fore.RED,
+    'CRITICAL': Fore.RED + Style.BRIGHT
+}
+```
 
 ## 🔍 Solução de Problemas
 
@@ -214,6 +367,23 @@ Se sua senha contém caracteres especiais, codifique-os corretamente:
 | + | %2B |
 | espaço | %20 |
 
+### Problemas com Formatação Colorida
+
+Se você encontrar problemas com a formatação colorida no terminal:
+
+1. **Cores não aparecem**: Alguns terminais não suportam cores ANSI. Tente usar um terminal diferente como Windows Terminal, PowerShell Core, ou terminais baseados em VT100.
+
+2. **Caracteres estranhos**: Se você vir sequências de escape ANSI (como `\033[32m`) em vez de cores, seu terminal não está interpretando corretamente os códigos de cores.
+
+3. **Solução para Windows**: No Windows, você pode precisar habilitar o suporte a ANSI:
+   ```python
+   # Isso é feito automaticamente pelo colorama.init()
+   # Mas você pode forçar com:
+   colorama.init(convert=True, strip=False, autoreset=False)
+   ```
+
+4. **Desabilitar cores**: Se preferir desabilitar as cores completamente, você pode editar o arquivo `voxy_agent.py` e remover ou comentar as linhas que inicializam o colorama.
+
 ### Erros com a API da OpenAI
 
 Problemas comuns incluem:
@@ -221,6 +391,7 @@ Problemas comuns incluem:
 1. Chave de API inválida ou expirada
 2. Limite de requisições excedido
 3. Créditos insuficientes na conta
+4. Erro de formato na entrada para embeddings (corrigido na versão atual)
 
 ## 📄 Licença
 
@@ -230,4 +401,4 @@ Este projeto é licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE)
 
 - [Mem0.ai](https://github.com/mem0ai/mem0) pela biblioteca de memória vetorial
 - [OpenAI](https://openai.com) pelos modelos de linguagem
-- [Supabase](https://supabase.com) pelo banco de dados com suporte vetorial 
+- [Supabase](https://supabase.com) pelo banco de dados com suporte vetorial
